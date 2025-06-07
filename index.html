@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DreamLink: Research & Educational Hub</title>
+    <!-- Chosen Palette: Warm Neutrals -->
+    <!-- Application Structure Plan: A single-page, top-down scrolling website. It includes a Hero section, About Research, Dream Science (separated into Sleep Stages and Dream Theories), an interactive Dream Symbolism Glossary, Deep Dive into Specific Dream Phenomena (new interactive section), Ask the AI Expert (new interactive section), AI in DreamLink, Future Frontiers (headband/projector vision), and an FAQ section. This thematic structure allows users to explore specific areas of interest related to dreams and AI, promoting deep engagement. Interactivity is provided through a sticky navigation, expandable FAQ items, and a searchable/expandable symbolism glossary, along with a new AI Q&A feature. -->
+    <!-- Visualization & Content Choices:
+        - Hero Section: Informative text, HTML/CSS. Goal: Engage.
+        - About Research: Text blocks, HTML/CSS. Goal: Inform.
+        - Dream Science (Sleep Stages/Tories): Detailed text sections. Goal: Explain.
+        - Dream Symbolism Glossary: Interactive list with expandable details (HTML/JS). Goal: Organize & Explore. Justification: Allows quick lookup of many entries without overwhelming the user.
+        - Deep Dive into Specific Dream Phenomena (NEW): Accordion-style expandable items (HTML/JS). Goal: Inform & Explore. Justification: Efficiently presents detailed information on various dream types.
+        - Ask the AI Expert (NEW): Text input, button, loading indicator, and response display (HTML/JS + Gemini API). Goal: Interact & Inform. Justification: Provides direct AI-powered Q&A for personalized educational support.
+        - AI in DreamLink: Text blocks explaining API roles. Goal: Explain.
+        - Future Frontiers: Textual description of advanced concepts. Goal: Inspire.
+        - FAQ: Accordion-style expandable items (HTML/JS). Goal: Inform. Justification: Efficiently presents Q&A.
+        - Library/Method: All built with HTML, Tailwind CSS, and Vanilla JavaScript. Chart.js CDN included as required, but not used as there is no quantitative data for this specific educational content.
+    -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #FDFBF8;
+            color: #383838;
+        }
+        .nav-link {
+            transition: color 0.3s ease;
+        }
+        .nav-link:hover {
+            color: #D5A021;
+        }
+        .section-title {
+            border-left: 4px solid #D5A021;
+            padding-left: 1rem;
+        }
+        .accordion-header {
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .accordion-header:hover {
+            background-color: #F8F5F2;
+        }
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease-out;
+        }
+        .accordion-content.is-open {
+            max-height: 500px; /* Increased max height to allow transition, adjust as needed */
+            transition: max-height 0.5s ease-in;
+        }
+        .rotate-icon {
+            transition: transform 0.3s ease;
+        }
+        .rotate-icon.is-open {
+            transform: rotate(90deg);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header & Navigation -->
+    <header id="header" class="bg-white/80 backdrop-blur-lg sticky top-0 z-50 shadow-sm">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="text-2xl font-bold text-gray-800">
+                DreamLink <span class="text-yellow-600">Hub</span>
+            </div>
+            <div class="hidden md:flex space-x-8">
+                <a href="#about" class="nav-link text-gray-600 font-medium">About</a>
+                <a href="#science" class="nav-link text-gray-600 font-medium">Science</a>
+                <a href="#symbolism" class="nav-link text-gray-600 font-medium">Symbolism</a>
+                <a href="#phenomena" class="nav-link text-gray-600 font-medium">Phenomena</a>
+                <a href="#ask-ai" class="nav-link text-gray-600 font-medium">Ask AI</a>
+                <a href="#ai" class="nav-link text-gray-600 font-medium">AI & Dreams</a>
+                <a href="#future" class="nav-link text-gray-600 font-medium">Future</a>
+                <a href="#faq" class="nav-link text-gray-600 font-medium">FAQ</a>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Hero Section -->
+        <section id="hero" class="py-24 md:py-32 bg-yellow-50">
+            <div class="container mx-auto px-6 text-center">
+                <h1 class="text-4xl md:text-6xl font-extrabold text-gray-800 leading-tight mb-4">Unlocking the Mysteries of Sleep</h1>
+                <p class="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto mb-6">Explore the science, psychology, and technology behind dreams with the DreamLink Research & Educational Hub.</p>
+            </div>
+        </section>
+
+        <!-- About Research Section -->
+        <section id="about" class="py-20">
+            <div class="container mx-auto px-6">
+                <h2 class="section-title text-4xl font-bold text-gray-800 mb-8">About DreamLink Research</h2>
+                <p class="text-lg text-gray-600 mb-6">
+                    The DreamLink Research & Educational Hub is dedicated to fostering a deeper understanding of dreams and their profound impact on human well-being. Here, we delve into the scientific underpinnings of sleep, explore the rich tapestry of dream symbolism, and highlight how cutting-edge artificial intelligence is revolutionizing our ability to interact with the subconscious mind. Our mission is to provide accessible, accurate, and engaging information for anyone curious about the nocturnal world.
+                </p>
+                <p class="text-lg text-gray-600">
+                    We believe that by shedding light on the mechanisms and meanings of dreams, we can empower individuals to gain greater self-awareness, unlock creative potential, and improve overall mental health. This hub serves as a foundational resource, complementing the interactive tools available on the main DreamLink application.
+                </p>
+            </div>
+        </section>
+
+        <!-- Dream Science Section -->
+        <section id="science" class="py-20 bg-white">
+            <div class="container mx-auto px-6">
+                <h2 class="section-title text-4xl font-bold text-gray-800 mb-8">The Science of Dreams</h2>
+                <p class="text-lg text-gray-600 mb-12">
+                    Dreams are complex neurological phenomena that occur during various stages of sleep. Understanding these stages is crucial to comprehending why and how we dream. This section breaks down the primary sleep cycles and leading theories on dream purpose.
+                </p>
+
+                <div class="grid md:grid-cols-2 gap-12 mb-12">
+                    <div>
+                        <h3 class="text-2xl font-bold text-gray-800 mb-4">Sleep Stages: NREM and REM</h3>
+                        <p class="text-gray-600 mb-4">
+                            Sleep cycles typically last about 90 minutes, cycling through Non-Rapid Eye Movement (NREM) and Rapid Eye Movement (REM) sleep.
+                        </p>
+                        <ul class="list-disc list-inside text-gray-600 space-y-2">
+                            <li>
+                                <strong>NREM Sleep (Non-Rapid Eye Movement):</strong> The majority of our sleep time is spent here. NREM is characterized by slower brain waves and generally less vivid dreams, though dreaming can still occur. It's often divided into three stages:
+                                <ul class="list-disc list-inside ml-5 text-gray-600 mt-2">
+                                    <li>**N1 (Light Sleep):** Transition from wakefulness, easily aroused.</li>
+                                    <li>**N2 (Deeper Sleep):** Body temperature drops, heart rate slows.</li>
+                                    <li>**N3 (Deepest Sleep/Slow-Wave Sleep):** Most restorative, crucial for physical recovery and memory consolidation.</li>
+                                </ul>
+                            </li>
+                            <li>
+                                <strong>REM Sleep (Rapid Eye Movement):</strong> Characterized by rapid eye movements, increased brain activity, and temporary muscle paralysis. Most vivid, memorable dreams occur during this stage. It's vital for emotional regulation, learning, and memory processing.
+                            </li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3 class="text-2xl font-bold text-gray-800 mb-4">Leading Dream Theories</h3>
+                        <p class="text-gray-600 mb-4">
+                            Scientists and psychologists have proposed various theories to explain why we dream:
+                        </p>
+                        <ul class="list-disc list-inside text-gray-600 space-y-2">
+                            <li>
+                                <strong>Psychoanalytic Theory (Freud):</strong> Dreams are wish fulfillment, a "royal road to the unconscious," revealing repressed desires and conflicts through symbolism.
+                            </li>
+                            <li>
+                                <strong>Activation-Synthesis Hypothesis (Hobson & McCarley):</strong> Dreams result from the brain's attempt to make sense of random neural activity during REM sleep, creating a narrative from chaotic signals.
+                            </li>
+                            <li>
+                                <strong>Information Processing Theory:</strong> Dreams help consolidate memories, process emotions, and integrate new information into existing knowledge structures.
+                            </li>
+                            <li>
+                                <strong>Threat Simulation Theory:</strong> Dreams simulate threatening events, allowing the brain to practice survival responses and prepare for real-life challenges.
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Dream Symbolism & Interpretation Glossary -->
+        <section id="symbolism" class="py-20">
+            <div class="container mx-auto px-6">
+                <h2 class="section-title text-4xl font-bold text-gray-800 mb-8">Dream Symbolism Glossary</h2>
+                <p class="text-lg text-gray-600 mb-8">
+                    Dreams often communicate through symbols. While interpretations can be highly personal, many symbols carry common meanings across cultures and psychology. Click on a symbol to reveal a brief general interpretation.
+                </p>
+
+                <div class="max-w-3xl mx-auto bg-white p-6 rounded-lg shadow-md">
+                    <div class="mb-4">
+                        <input type="text" id="symbolSearch" placeholder="Search for a symbol (e.g., Water, Snake, House)" class="w-full p-3 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-yellow-500">
+                    </div>
+                    <div id="symbolList" class="space-y-2">
+                        <!-- Symbols will be populated and managed by JavaScript -->
+                        <div class="accordion-item border-b border-gray-200">
+                            <div class="accordion-header flex justify-between items-center p-3 font-semibold text-gray-700">
+                                <span>Water</span>
+                                <span class="rotate-icon text-gray-500">&#9658;</span> <!-- Right arrow -->
+                            </div>
+                            <div class="accordion-content p-3 text-gray-600">
+                                Water often symbolizes emotions, the unconscious mind, or the flow of life. Clear water may suggest clarity, while turbulent water might represent emotional turmoil.
+                            </div>
+                        </div>
+                        <div class="accordion-item border-b border-gray-200">
+                            <div class="accordion-header flex justify-between items-center p-3 font-semibold text-gray-700">
+                                <span>Snake</span>
+                                <span class="rotate-icon text-gray-500">&#9658;</span>
+                            </div>
+                            <div class="accordion-content p-3 text-gray-600">
+                                Snakes can represent transformation, healing, hidden fears, or temptation. Its meaning often depends on your personal feelings towards snakes.
+                            </div>
+                        </div>
+                        <div class="accordion-item border-b border-gray-200">
+                            <div class="accordion-header flex justify-between items-center p-3 font-semibold text-gray-700">
+                                <span>House</span>
+                                <span class="rotate-icon text-gray-500">&#9658;</span>
+                            </div>
+                            <div class="accordion-content p-3 text-gray-600">
+                                A house in a dream usually symbolizes the self. Different rooms or parts of the house can represent various aspects of your personality or life areas.
+                            </div>
+                        </div>
+                        <div class="accordion-item border-b border-gray-200">
+                            <div class="accordion-header flex justify-between items-center p-3 font-semibold text-gray-700">
+                                <span>Falling</span>
+                                <span class="rotate-icon text-gray-500">&#9658;</span>
+                            </div>
+                            <div class="accordion-content p-3 text-gray-600">
+                                Dreams of falling can indicate feelings of insecurity, loss of control, or anxiety in a waking situation. It might suggest a fear of failure or letting go.
+                            </div>
+                        </div>
+                        <div class="accordion-item border-b border-gray-200">
+                            <div class="accordion-header flex justify-between items-center p-3 font-semibold text-gray-700">
+                                <span>Flying</span>
+                                <span class="rotate-icon text-gray-500">&#9658;</span>
+                            </div>
+                            <div class="accordion-content p-3 text-gray-600">
+                                Flying dreams often symbolize freedom, overcoming obstacles, a sense of control, or rising above a challenging situation. It can reflect ambition and success.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Deep Dive into Specific Dream Phenomena Section (NEW) -->
+        <section id="phenomena" class="py-20 bg-yellow-50">
+            <div class="container mx-auto px-6">
+                <h2 class="section-title text-4xl font-bold text-gray-800 mb-8">Deep Dive: Specific Dream Phenomena</h2>
+                <p class="text-lg text-gray-600 mb-8">
+                    Dreams can manifest in many unusual and intriguing ways. Here, we explore some common and fascinating dream phenomena that often spark curiosity.
+                </p>
+
+                <div class="max-w-3xl mx-auto bg-white p-6 rounded-lg shadow-md">
+                    <!-- Phenomena Item 1: Lucid Dreaming -->
+                    <div class="accordion-item border-b border-gray-200">
+                        <div class="accordion-header flex justify-between items-center p-4">
+                            <span class="font-semibold text-gray-700">Lucid Dreaming</span>
+                            <span class="rotate-icon text-gray-500">&#9658;</span>
+                        </div>
+                        <div class="accordion-content p-4 text-gray-600">
+                            Lucid dreaming is the experience of being aware that you are dreaming while the dream is happening. This awareness can range from simply recognizing you're dreaming to being able to control the dream's narrative, characters, and environment. Many people practice techniques like "reality testing" to induce lucid dreams, which can be a powerful tool for self-exploration, creativity, and overcoming fears.
+                        </div>
+                    </div>
+                    <!-- Phenomena Item 2: Nightmares -->
+                    <div class="accordion-item border-b border-gray-200">
+                        <div class="accordion-header flex justify-between items-center p-4">
+                            <span class="font-semibold text-gray-700">Nightmares</span>
+                            <span class="rotate-icon text-gray-500">&#9658;</span>
+                        </div>
+                        <div class="accordion-content p-4 text-gray-600">
+                            Nightmares are disturbing dreams associated with negative feelings, such as anxiety or fear, that awaken you from sleep. They are most common during REM sleep. While occasional nightmares are normal, frequent nightmares can be linked to stress, trauma, certain medications, or sleep disorders. They often serve as a way for the subconscious mind to process difficult emotions or experiences.
+                        </div>
+                    </div>
+                    <!-- Phenomena Item 3: Recurring Dreams -->
+                    <div class="accordion-item border-b border-gray-200">
+                        <div class="accordion-header flex justify-between items-center p-4">
+                            <span class="font-semibold text-gray-700">Recurring Dreams</span>
+                            <span class="rotate-icon text-gray-500">&#9658;</span>
+                        </div>
+                        <div class="accordion-content p-4 text-gray-600">
+                            Recurring dreams are dreams that repeat over a period of time, sometimes even years, with similar themes, scenarios, or characters. They often indicate an unresolved issue or a persistent emotional conflict in your waking life that your subconscious is trying to bring to your attention. Identifying the core message of a recurring dream can be a key step towards resolving underlying problems.
+                        </div>
+                    </div>
+                    <!-- Phenomena Item 4: Sleep Paralysis -->
+                    <div class="accordion-item border-b border-gray-200">
+                        <div class="accordion-header flex justify-between items-center p-4">
+                            <span class="font-semibold text-gray-700">Sleep Paralysis</span>
+                            <span class="rotate-icon text-gray-500">&#9658;</span>
+                        </div>
+                        <div class="accordion-content p-4 text-gray-600">
+                            Sleep paralysis is a temporary inability to move or speak that occurs when a person wakes up or falls asleep. It can be accompanied by vivid hallucinations, creating a terrifying experience. This happens when the brain wakes up during REM sleep, but the body's natural muscle paralysis (atonia) designed to prevent you from acting out dreams persists.
+                        </div>
+                    </div>
+                    <!-- Phenomena Item 5: False Awakenings -->
+                    <div class="accordion-item border-b border-gray-200">
+                        <div class="accordion-header flex justify-between items-center p-4">
+                            <span class="font-semibold text-gray-700">False Awakenings</span>
+                            <span class="rotate-icon text-gray-500">&#9658;</span>
+                        </div>
+                        <div class="accordion-content p-4 text-gray-600">
+                            A false awakening is a vivid dream in which you appear to wake up, go through your morning routine, and then suddenly realize you are still dreaming and wake up for real. These can occur within a larger dream and are often highly realistic. They are sometimes linked to lucid dreaming attempts, as recognizing a false awakening can be a trigger for lucidity.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Ask the AI Expert Section (NEW) -->
+        <section id="ask-ai" class="py-20">
+            <div class="container mx-auto px-6">
+                <h2 class="section-title text-4xl font-bold text-gray-800 mb-8">Ask the AI Expert</h2>
+                <p class="text-lg text-gray-600 mb-8">
+                    Have a specific question about dreams, sleep, or dream interpretation? Ask our AI expert! This AI is trained on a vast amount of information and can provide concise, informative answers.
+                </p>
+
+                <div class="max-w-3xl mx-auto bg-white p-8 rounded-lg shadow-md">
+                    <textarea
+                        id="aiQuestionInput"
+                        class="w-full p-4 mb-4 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-yellow-500 resize-y min-h-[80px]"
+                        placeholder="e.g., What is the purpose of REM sleep?"
+                    ></textarea>
+                    <button
+                        id="askAiButton"
+                        class="w-full py-3 px-6 rounded-md text-lg font-semibold bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-75 transition duration-300"
+                    >
+                        Ask Question
+                    </button>
+
+                    <div id="aiLoadingIndicator" class="mt-8 hidden flex-col items-center">
+                        <div class="animate-spin rounded-full h-12 w-12 border-4 border-t-4 border-blue-400 border-opacity-75"></div>
+                        <p class="mt-4 text-blue-600">Thinking...</p>
+                    </div>
+
+                    <div id="aiErrorMessage" class="mt-8 p-4 bg-red-100 border border-red-400 text-red-700 rounded-md hidden"></div>
+
+                    <div id="aiResponseDisplay" class="mt-8 p-6 bg-gray-50 rounded-lg hidden">
+                        <h3 class="text-xl font-bold text-gray-800 mb-3">AI's Answer:</h3>
+                        <p id="aiResponseText" class="text-gray-700 leading-relaxed"></p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- AI in DreamLink Section -->
+        <section id="ai" class="py-20 bg-white">
+            <div class="container mx-auto px-6">
+                <h2 class="section-title text-4xl font-bold text-gray-800 mb-8">Artificial Intelligence in DreamLink</h2>
+                <p class="text-lg text-gray-600 mb-6">
+                    DreamLink harnesses the power of advanced AI models from Google to provide its unique functionalities. These models are at the forefront of generative AI and natural language processing, enabling the app to translate human language into compelling visuals and insightful textual analyses.
+                </p>
+                <div class="grid md:grid-cols-2 gap-12">
+                    <div>
+                        <h3 class="text-2xl font-bold text-gray-800 mb-4">Google Imagen API (Image Generation)</h3>
+                        <p class="text-gray-600">
+                            The Imagen API is a text-to-image diffusion model known for its high-fidelity image generation and deep understanding of language. In DreamLink, it takes your textual dream description and transforms it into a visual representation, capturing the essence and details you provide. This allows for the creation of unique, imaginative images directly from your subconscious narratives.
+                        </p>
+                    </div>
+                    <div>
+                        <h3 class="text-2xl font-bold text-gray-800 mb-4">Google Gemini API (Interpretation & Story)</h3>
+                        <p class="text-gray-600">
+                            The Gemini API (specifically `gemini-2.0-flash`) is a versatile, multimodal large language model. DreamLink utilizes Gemini's capabilities for two core features:
+                        </p>
+                        <ul class="list-disc list-inside text-gray-600 mt-4 space-y-2">
+                            <li><strong>Dream Interpretation:</strong> Gemini processes your dream text and generates concise interpretations by recognizing patterns, symbols, and themes commonly associated with dream analysis.</li>
+                            <li><strong>Dream Story Expansion:</strong> Gemini takes your brief dream description and elaborates it into a coherent and descriptive short story, filling in details and narrative flow, effectively bringing your dream to life in written form.</li>
+                            <li><strong>Dream Inquiry:</strong> (As seen in "Ask the AI Expert" section) Gemini powers the ability to answer general questions about dreams and sleep science.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Future Frontiers Section -->
+        <section id="future" class="py-20">
+            <div class="container mx-auto px-6">
+                <h2 class="section-title text-4xl font-bold text-gray-800 mb-8">Future Frontiers: The Next Evolution of DreamLink</h2>
+                <p class="text-lg text-gray-600 mb-6">
+                    Our vision for DreamLink extends far beyond current capabilities. We envision a future where the interaction with dreams is even more immersive and personalized. The ultimate goal is to bridge the gap between neurological activity and conscious dream experience through groundbreaking hardware and advanced AI.
+                </p>
+                <div class="grid md:grid-cols-2 gap-12">
+                    <div>
+                        <h3 class="text-2xl font-bold text-gray-800 mb-4">Advanced Brainwave Integration Headband</h3>
+                        <p class="text-gray-600">
+                            The next major step is the development of a specialized headband device. This wearable would be equipped with advanced sensors to accurately record brainwave activity (EEG) and rapid eye movement (REM) during sleep. This real-time neurological data would provide a direct feed into DreamLink's AI.
+                        </p>
+                        <p class="text-gray-600 mt-4">
+                            By capturing these precise signals, we aim to move beyond subjective text descriptions, allowing the AI to gain a deeper, more accurate understanding of the brain states associated with dreaming. This could pave the way for more precise dream content decoding.
+                        </p>
+                    </div>
+                    <div>
+                        <h3 class="text-2xl font-bold text-gray-800 mb-4">Mini 3D Projector for Immersive Dream Visualization</h3>
+                        <p class="text-gray-600">
+                            Coupled with the brainwave headband, we envision a compact, Alexa-style device that integrates a mini 3D projector. This projector would receive the AI-processed neurological data and convert it into interactive 3D video visualizations of the user's dreams.
+                        </p>
+                        <p class="text-gray-600 mt-4">
+                            Imagine waking up and, with a simple voice command, re-experiencing fragments of your dreams as a personal 3D cinematic display in your room. This technology aims to provide an unprecedented level of immersive engagement with your dream world, truly allowing you to "see your dreams like videos."
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FAQ Section -->
+        <section id="faq" class="py-20 bg-white">
+            <div class="container mx-auto px-6">
+                <h2 class="section-title text-4xl font-bold text-gray-800 mb-8">Frequently Asked Questions</h2>
+                <div class="max-w-3xl mx-auto">
+                    <!-- FAQ Item 1 -->
+                    <div class="accordion-item border-b border-gray-200">
+                        <div class="accordion-header flex justify-between items-center p-4">
+                            <span class="font-semibold text-gray-700">How accurate are the dream interpretations?</span>
+                            <span class="rotate-icon text-gray-500">&#9658;</span>
+                        </div>
+                        <div class="accordion-content p-4 text-gray-600">
+                            Dream interpretations provided by DreamLink are based on common symbolic meanings and general psychological principles derived from the AI model's training data. While they can offer insightful starting points, individual dream meanings are highly personal and can vary based on your unique experiences and emotions. They should be used as a guide for self-reflection.
+                        </div>
+                    </div>
+                    <!-- FAQ Item 2 -->
+                    <div class="accordion-item border-b border-gray-200">
+                        <div class="accordion-header flex justify-between items-center p-4">
+                            <span class="font-semibold text-gray-700">Is my dream data private?</span>
+                            <span class="rotate-icon text-gray-500">&#9658;</span>
+                        </div>
+                        <div class="accordion-content p-4 text-gray-600">
+                            At DreamLink, we prioritize user privacy. For the current demo, no personal dream data is stored. In future versions with user accounts, we plan to implement robust encryption and privacy controls, allowing you to choose whether your dreams remain private or are shared anonymously with the community for research insights.
+                        </div>
+                    </div>
+                    <!-- FAQ Item 3 -->
+                    <div class="accordion-item border-b border-gray-200">
+                        <div class="accordion-header flex justify-between items-center p-4">
+                            <span class="font-semibold text-gray-700">What are the limitations of AI-generated visuals?</span>
+                            <span class="rotate-icon text-gray-500">&#9658;</span>
+                        </div>
+                        <div class="accordion-content p-4 text-gray-600">
+                            AI-generated visuals are powerful but rely on the quality and detail of your text description. While they can produce impressive and imaginative images, they might not always perfectly capture every nuance or subjective feeling of a dream. Experimenting with different descriptions can yield varied results.
+                        </div>
+                    </div>
+                    <!-- FAQ Item 4 -->
+                    <div class="accordion-item border-b border-gray-200">
+                        <div class="accordion-header flex justify-between items-center p-4">
+                            <span class="font-semibold text-gray-700">How does the future brainwave integration work?</span>
+                            <span class="rotate-icon text-gray-500">&#9658;</span>
+                        </div>
+                        <div class="accordion-content p-4 text-gray-600">
+                            This is a long-term research goal. The concept involves a specialized headband to detect specific brainwave patterns (EEG) and eye movements (REM) associated with dreaming. Advanced AI would then analyze these neural signals to reconstruct or interpret dream content, which could then be rendered as a 3D video via a mini projector. This would move beyond textual input to direct neural interfacing.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-12">
+        <div class="container mx-auto px-6 text-center">
+             <h3 class="text-2xl font-bold mb-2">Continue Your Dream Exploration</h3>
+             <p class="text-gray-400 mb-4">DreamLink: Bridging the gap between your subconscious and conscious understanding.</p>
+             <a href="https://your-main-dreamlink-app-url.com" target="_blank" class="inline-block bg-yellow-500 text-gray-900 font-semibold py-3 px-8 rounded-md hover:bg-yellow-600 transition duration-300">Try DreamLink App</a>
+             <p class="text-sm text-gray-500 mt-4">© 2025 DreamLink by Abhilash Addagattu. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Accordion functionality for FAQ, Symbolism Glossary, and Dream Phenomena
+        document.querySelectorAll('.accordion-header').forEach(header => {
+            header.addEventListener('click', () => {
+                const item = header.closest('.accordion-item');
+                const content = item.querySelector('.accordion-content');
+                const icon = header.querySelector('.rotate-icon');
+
+                // Toggle current accordion
+                content.classList.toggle('is-open');
+                icon.classList.toggle('is-open');
+            });
+        });
+
+        // Search functionality for Dream Symbolism Glossary
+        const dreamSymbols = [
+            { symbol: 'Water', interpretation: 'Water often symbolizes emotions, the unconscious mind, or the flow of life. Clear water may suggest clarity, while turbulent water might represent emotional turmoil.' },
+            { symbol: 'Snake', interpretation: 'Snakes can represent transformation, healing, hidden fears, or temptation. Its meaning often depends on your personal feelings towards snakes.' },
+            { symbol: 'House', interpretation: 'A house in a dream usually symbolizes the self. Different rooms or parts of the house can represent various aspects of your personality or life areas.' },
+            { symbol: 'Falling', interpretation: 'Dreams of falling can indicate feelings of insecurity, loss of control, or anxiety in a waking situation. It might suggest a fear of failure or letting go.' },
+            { symbol: 'Flying', interpretation: 'Flying dreams often symbolize freedom, overcoming obstacles, a sense of control, or rising above a challenging situation. It can reflect ambition and success.' },
+            { symbol: 'Teeth Falling Out', interpretation: 'Commonly linked to feelings of anxiety, vulnerability, loss of control, or worries about appearance and communication. It can also signify a fear of aging or a major life change.' },
+            { symbol: 'Being Chased', interpretation: 'Often indicates that you are avoiding a situation or emotion in your waking life. It can represent feelings of fear, anxiety, or a desire to escape something. Consider what is chasing you and how you react.' },
+            { symbol: 'Nakedness', interpretation: 'Can symbolize vulnerability, fear of exposure, honesty, or feeling unprepared for a situation. The context (how you feel about being naked) is key to interpretation.' },
+            { symbol: 'Exams/Tests', interpretation: 'Often relates to anxiety about performance, fear of failure, or feeling unprepared for a challenge in waking life. It can signify self-doubt or a need to prove yourself.' },
+            { symbol: 'Animals', interpretation: 'Animals often symbolize instincts, aspects of your personality, or people in your life. The type of animal and its behavior are crucial for interpretation (e.g., a playful dog vs. an aggressive bear).' },
+            { symbol: 'Trees', interpretation: 'Trees often symbolize growth, wisdom, stability, or connection to nature and self. The condition of the tree (lush, barren, strong, dying) can provide further meaning.' },
+            { symbol: 'Road/Path', interpretation: 'Represents your life journey or choices you are making. A clear, straight road might indicate certainty, while a winding or blocked path could suggest confusion or obstacles.' },
+            { symbol: 'Car', interpretation: 'Often symbolizes your drive, motivation, and ability to control your life direction. The state of the car (new, old, broken) and whether you are driving or a passenger can add meaning.' },
+            { symbol: 'Baby', interpretation: 'Can symbolize new beginnings, growth, vulnerability, or a new project/idea. It often reflects your feelings about responsibility and nurturing.' },
+            { symbol: 'Death', interpretation: 'Rarely literal, death in dreams usually symbolizes an end to something (a phase, habit, relationship) and the beginning of something new. It can signify transformation or rebirth.' },
+            { symbol: 'Bridge', interpretation: 'Symbolizes a transition or connection between two points (e.g., past and future, different ideas, or relationships). Crossing a bridge can mean overcoming a challenge.' },
+            { symbol: 'Fire', interpretation: 'Can symbolize passion, destruction, purification, or transformation. The context and your feelings about the fire are crucial for interpretation (e.g., controlled fire vs. destructive blaze).' },
+            { symbol: 'Ocean', interpretation: 'Represents the vastness of the unconscious mind, emotions, or the unknown. A calm ocean might mean emotional tranquility, while a stormy ocean could signify turmoil.' },
+            { symbol: 'Mountain', interpretation: 'Symbolizes challenges, goals, or aspirations. Climbing a mountain can mean overcoming difficulties, while being at the summit can represent achievement or clarity.' },
+            { symbol: 'Phone', interpretation: 'Often symbolizes communication or the lack thereof. A broken phone or difficulty making a call might indicate issues with expressing yourself or connecting with others.' }
+        ];
+
+        const symbolSearchInput = document.getElementById('symbolSearch');
+        const symbolListContainer = document.getElementById('symbolList');
+
+        function renderSymbols(filter = '') {
+            symbolListContainer.innerHTML = ''; // Clear current list
+            const filteredSymbols = dreamSymbols.filter(item =>
+                item.symbol.toLowerCase().includes(filter.toLowerCase()) ||
+                item.interpretation.toLowerCase().includes(filter.toLowerCase())
+            );
+
+            filteredSymbols.forEach(item => {
+                const div = document.createElement('div');
+                div.classList.add('accordion-item', 'border-b', 'border-gray-200');
+                div.innerHTML = `
+                    <div class="accordion-header flex justify-between items-center p-3 font-semibold text-gray-700">
+                        <span>${item.symbol}</span>
+                        <span class="rotate-icon text-gray-500">&#9658;</span>
+                    </div>
+                    <div class="accordion-content p-3 text-gray-600">
+                        ${item.interpretation}
+                    </div>
+                `;
+                symbolListContainer.appendChild(div);
+            });
+
+            // Re-attach event listeners to new elements
+            document.querySelectorAll('#symbolList .accordion-header').forEach(header => {
+                header.addEventListener('click', () => {
+                    const item = header.closest('.accordion-item');
+                    const content = item.querySelector('.accordion-content');
+                    const icon = header.querySelector('.rotate-icon');
+
+                    // Close all other open accordions within the symbol list
+                    document.querySelectorAll('#symbolList .accordion-content.is-open').forEach(openContent => {
+                        if (openContent !== content) {
+                            openContent.classList.remove('is-open');
+                            openContent.closest('.accordion-item').querySelector('.rotate-icon').classList.remove('is-open');
+                        }
+                    });
+
+                    content.classList.toggle('is-open');
+                    icon.classList.toggle('is-open');
+                });
+            });
+        }
+
+        // Initial render of all symbols
+        renderSymbols();
+
+        // Event listener for search input
+        symbolSearchInput.addEventListener('keyup', (e) => {
+            renderSymbols(e.target.value);
+        });
+
+        // Ask the AI Expert functionality
+        const aiQuestionInput = document.getElementById('aiQuestionInput');
+        const askAiButton = document.getElementById('askAiButton');
+        const aiLoadingIndicator = document.getElementById('aiLoadingIndicator');
+        const aiErrorMessage = document.getElementById('aiErrorMessage');
+        const aiResponseDisplay = document.getElementById('aiResponseDisplay');
+        const aiResponseText = document.getElementById('aiResponseText');
+
+        askAiButton.addEventListener('click', async () => {
+            const question = aiQuestionInput.value.trim();
+            if (!question) {
+                aiErrorMessage.textContent = 'Please enter a question for the AI expert.';
+                aiErrorMessage.classList.remove('hidden');
+                return;
+            }
+
+            aiErrorMessage.classList.add('hidden');
+            aiResponseDisplay.classList.add('hidden');
+            aiResponseText.textContent = '';
+            aiLoadingIndicator.classList.remove('hidden');
+            askAiButton.disabled = true;
+
+            try {
+                let chatHistory = [];
+                chatHistory.push({ role: "user", parts: [{ text: `Answer the following question concisely, providing factual and general information about dreams, sleep, or dream interpretation: "${question}"` }] });
+                const payload = { contents: chatHistory };
+
+                const apiKey = "";
+                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                if (!response.ok) {
+                    const errorText = await response.text();
+                    let displayMessage = `API Error: ${response.status} ${response.statusText}.`;
+                    if (response.status === 401 || response.status === 403) {
+                        displayMessage += " This often means the API key is missing or invalid, or the required Google APIs (Imagen/Gemini) are not enabled for your project.";
+                    } else if (errorText) {
+                        displayMessage += ` Details: ${errorText.substring(0, 150)}...`;
+                    }
+                    aiErrorMessage.textContent = displayMessage;
+                    aiErrorMessage.classList.remove('hidden');
+                    console.error('API request failed for AI Expert:', response.status, response.statusText, errorText);
+                    return;
+                }
+
+                const result = await response.json();
+                console.log('Gemini AI Expert Response Result:', result);
+
+                if (result.candidates && result.candidates.length > 0 &&
+                    result.candidates[0].content && result.candidates[0].content.parts &&
+                    result.candidates[0].content.parts.length > 0) {
+                    const text = result.candidates[0].content.parts[0].text;
+                    aiResponseText.textContent = text;
+                    aiResponseDisplay.classList.remove('hidden');
+                } else {
+                    aiErrorMessage.textContent = 'Failed to get an answer. Please try rephrasing your question or try again.';
+                    aiErrorMessage.classList.remove('hidden');
+                    console.error('Unexpected API response for AI Expert:', result);
+                }
+            } catch (error) {
+                aiErrorMessage.textContent = `Error asking AI expert: ${error.message}`;
+                aiErrorMessage.classList.remove('hidden');
+                console.error('Error during AI Expert query:', error);
+            } finally {
+                aiLoadingIndicator.classList.add('hidden');
+                askAiButton.disabled = false;
+            }
+        });
+    </script>
+</body>
+</html>
